@@ -16,4 +16,4 @@ in this module's directory so that the module can include the script from
 git clone https://github.com/okor/justice.git
 ```
 
-![Screenshot][http://caxy.github.io/justice-module/screenshot.png]
+![Screenshot](https://caxy.github.io/justice-module/screenshot.png)
