@@ -30,7 +30,7 @@ function justice_menu() {
  * Implement hook_library().
  */
 function justice_library() {
-  $libraries['justice'] = array(
+  $libraries['justice.js'] = array(
     'title' => 'Justice.js',
     'website' => 'https://github.com/okor/justice',
     'version' => '1.0',
@@ -87,7 +87,7 @@ function justice_library() {
 function justice_page_build(&$page) {
   $page['page_bottom']['justice'] = array(
     '#attached' => array(
-      'library' => array(array('justice', 'justice')),
+      'library' => array(array('justice', 'justice.js')),
     ),
     '#access' => user_access('access Justice.js performance statistics'),
   );
