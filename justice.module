@@ -1,0 +1,94 @@
+<?php
+
+/**
+ * Implements hook_permission().
+ */
+function justice_permission() {
+  return array(
+    'access Justice performance statistics' =>  array(
+      'title' => t('Access Justice performance statistics'),
+    ),
+  );
+}
+
+/**
+ * Implement hook_menu().
+ */
+function justice_menu() {
+  $items['admin/config/development/justice'] = array(
+    'title' => 'Justice',
+    'description' => 'Display web page performance metrics',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('justice_admin_settings'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'justice.admin.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implement hook_library().
+ */
+function justice_library() {
+  $libraries['justice'] = array(
+    'title' => 'Justice',
+    'website' => 'https://github.com/okor/justice',
+    'version' => '1.0',
+    'js' => array(
+      drupal_get_path('module', 'justice') . '/justice/build/justice.min.js' => array(
+        'scope' => 'footer',
+      ),
+      array(
+        'type' => 'setting',
+        'data' => array(
+          'justice' => array(
+            'metrics' => array(
+              'TTFB' => array(
+                'budget' => variable_get('justice_budget_ttfb', 200),
+              ),
+              'domInteractive' => array(
+                'budget' => variable_get('justice_budget_dominteractive', 250),
+              ),
+              'domComplete' => array(
+                'budget' => variable_get('justice_budget_domcomplete', 800),
+              ),
+              'firstPaint' => array(
+                'budget' => variable_get('justice_budget_firstpaint', 1000),
+              ),
+              'pageLoad' => array(
+                'budget' => variable_get('justice_budget_pageload', 2000),
+              ),
+              'requests' => array(
+                'budget' => variable_get('justice_budget_requests', 6),
+              ),
+            ),
+            'interface' => array(
+              'position' => variable_get('justice_interface_position', 'fixed'),
+              'placement' => variable_get('justice_interface_placement', 'bottom'),
+            ),
+            'warnThreshold' => variable_get('justice_warnthreshold', 0.8),
+            'showFPS' => (bool) variable_get('justice_showfps', TRUE),
+            'chartType' => variable_get('justice_charttype', 'spline'),
+          ),
+        ),
+      ),
+      'Justice.init(Drupal.settings.justice);' => array(
+        'type' => 'inline',
+        'scope' => 'footer',
+      ),
+    ),
+  );
+  return $libraries;
+}
+
+/**
+ * Implements hook_page_build().
+ */
+function justice_page_build(&$page) {
+  $page['page_bottom']['justice'] = array(
+    '#attached' => array(
+      'library' => array(array('justice', 'justice')),
+    ),
+    '#access' => user_access('access Justice performance statistics'),
+  );
+}
