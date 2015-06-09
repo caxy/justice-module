@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Settings for Justice script.
+ * Settings for Justice.js script.
  */
 function justice_admin_settings() {
   $form = array();

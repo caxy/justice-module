@@ -5,8 +5,8 @@
  */
 function justice_permission() {
   return array(
-    'access Justice performance statistics' =>  array(
-      'title' => t('Access Justice performance statistics'),
+    'access Justice.js performance statistics' =>  array(
+      'title' => t('Access Justice.js performance statistics'),
     ),
   );
 }
@@ -16,7 +16,7 @@ function justice_permission() {
  */
 function justice_menu() {
   $items['admin/config/development/justice'] = array(
-    'title' => 'Justice',
+    'title' => 'Justice.js',
     'description' => 'Display web page performance metrics',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('justice_admin_settings'),
@@ -31,7 +31,7 @@ function justice_menu() {
  */
 function justice_library() {
   $libraries['justice'] = array(
-    'title' => 'Justice',
+    'title' => 'Justice.js',
     'website' => 'https://github.com/okor/justice',
     'version' => '1.0',
     'js' => array(
@@ -89,6 +89,6 @@ function justice_page_build(&$page) {
     '#attached' => array(
       'library' => array(array('justice', 'justice')),
     ),
-    '#access' => user_access('access Justice performance statistics'),
+    '#access' => user_access('access Justice.js performance statistics'),
   );
 }
